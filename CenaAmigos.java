@@ -121,17 +121,17 @@ public class CenaAmigos {
 		for(int r=0; r<recetas.size(); r++)
         {
             bw.write(recetas.get(r).getNombreReceta() + " ");
+            ingredientess = recetas.get(r).getIngredientes();
              for(int y=0; y<recetas.size(); y++)
         		{
-            	bw.write(ingredientess.get(y).getNombreIngrediente() + "*");
-             	bw.write(ingredientess.get(y).getCantidadGramos() + "*");
-             	bw.write(ingredientess.get(y).getCantidadUnidad() + "*");
-             	bw.write(ingredientess.get(y).getEnGramos() + "#");
-
-
+            	
+				bw.append(ingredientess.get(y).getNombreIngrediente()+
+				"*"+ingredientess.get(y).getCantidadGramos()+
+				"*"+ingredientess.get(y).getCantidadUnidad()+
+				"*"+ingredientess.get(y).getEnGramos()+"#");
             
         }	
-              bw.write(recetas.get(r).getPreparacion() + ";");
+              bw.write(recetas.get(r).getPreparacion() + "\n");
 
             
         }	
@@ -156,7 +156,45 @@ public class CenaAmigos {
 
   //lectura del fichero****************************************************************
 
-String nombrefichero2 = "receta.txt";	
+
+
+       	 try{
+			File listaRecetas2 = new File("./receta.txt");
+			FileInputStream fis = new FileInputStream(listaRecetas2);
+	        InputStreamReader isr = new InputStreamReader(fis, "UTF8");
+	        BufferedReader br = new BufferedReader(isr);
+
+
+
+	        String linea;
+	        linea = br.readLine();
+	        String [] campos = null;
+	        System.out.println("\nTus recetas...");
+	        while(linea!=null){
+	        	campos = linea.split(" ");
+	        	System.out.println("--------------------------------");
+	        	System.out.println("Nombre: "+campos[0]);
+	       		System.out.println("Descripcion: "+campos[2]);
+	       		String ingre = campos[1];
+	       		campos = ingre.split("#");
+	       		for(int x=0; x<campos.length; x++){
+	       			String ingreAtribSeparados = campos[x];
+	       			String [] campos2 = ingreAtribSeparados.split("\\*");
+	       			System.out.println("Ingredientes: ");
+	       			System.out.println("Nombre: "+campos2[0]);
+	       			System.out.println("Gramos: "+campos2[1]);
+	       			System.out.println("Unidades: "+campos2[2]);
+	       			System.out.println("--------------------------------");
+	       			//System.out.println("¿En gramos?: "+campos2[3]);
+	       		}
+	       		
+	       		linea = br.readLine();
+	        }
+	        
+	    }catch(Exception ioe){
+	    	System.out.println("Error: "+ioe);
+	    }
+/*String nombrefichero2 = "receta.txt";	
 			String ruta2 ="/home/zubiri/Proyectosjava/examen";
 			
 			
@@ -174,7 +212,7 @@ String nombrefichero2 = "receta.txt";
 					System.out.print(salida2);
 				}while ((salida2 = bf2.readLine()) != null);
 
-
+*/
 
         }
     }
